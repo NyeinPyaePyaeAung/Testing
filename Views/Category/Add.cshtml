@@ -1,0 +1,84 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model Category
+
+<h1>Add New Item</h1>
+
+<form asp-action="Create">
+    <!-- Your form fields go here -->
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+    </div>
+    <!-- Add more form fields as needed -->
+
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>
+
+<button id="show">Show Dialog</button>
+
+<button id="showModal">Show Modal Dialog</button>
+
+<br />
+<br />
+
+<h3 id="message"></h3>
+
+<dialog id="dialog">
+    Enter your name :
+    <br />
+    <br />
+    <input id="name" type="text" />
+    <br />
+    <br />
+    <button id="ok" type="button">OK</button>
+    <button id="cancel" type="button">Cancel</button>
+</dialog>
+
+<script>
+    var show = document.getElementById('show');
+    var showModal = document.getElementById('showModal');
+    var dialog = document.getElementById('dialog');
+    var message = document.getElementById('message');
+    var nameInput = document.getElementById('name');
+    var ok = document.getElementById('ok');
+    var cancel = document.getElementById('cancel');
+
+    show.addEventListener('click', function () {
+        if (!dialog.open) {
+            dialog.show();
+        }
+        else {
+            message.innerHTML = 'Dialog is already open!';
+        }
+    });
+
+    showModal.addEventListener('click', function () {
+        if (!dialog.open) {
+            dialog.showModal();
+        }
+        else {
+            message.innerHTML = 'Dialog is already open!';
+        }
+    });
+
+    ok.addEventListener('click', function () {
+        dialog.returnValue = nameInput.value;
+        dialog.close();
+    });
+
+    cancel.addEventListener('click', function () {
+        dialog.close('Cancel');
+    });
+
+    dialog.addEventListener('close', function () {
+        if (dialog.returnValue == 'Cancel')
+            message.innerHTML = 'You cancelled the dialog';
+            
+        else
+            message.innerHTML = 'You entered : ' + dialog.returnValue;
+    });
+</script>

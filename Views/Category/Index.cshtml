@@ -1,0 +1,71 @@
+﻿@model IEnumerable<vindly.Models.Category>
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Testing List</h2>
+        </div>
+    </div>
+    <br /><br />
+
+    @if (Model.Count() > 0)
+    {
+        <table class="table table-bordered table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Project Name</th>
+                    <th>PM</th>
+                    <th>RD</th>
+                    <th>UT</th>
+                    <th>OT</th>
+                    <th>Total</th>
+                    <th>Add</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    double pmTotal = 0; // Variable to store the total of PM values
+                    double rdTotal = 0;
+                    double utTotal = 0;
+                    double otTotal = 0;
+                    double allTotal = 0;
+                }
+                @foreach (var obj in Model)
+                {
+                    pmTotal += obj.PM; // Accumulate the PM value
+                    rdTotal += obj.RD;
+                    utTotal += obj.UT;
+                    otTotal += obj.OT;
+                    var total = obj.PM + obj.RD + obj.UT + obj.OT; // Calculate the total
+                    allTotal += total;
+
+                    <tr>
+                        <td width="30%">@obj.Name</td>
+                        <td>@obj.PM</td>
+                        <td>@obj.RD</td>
+                        <td>@obj.UT</td>
+                        <td>@obj.OT</td>
+                        <td class="font-weight-bold">@total</td>
+                        <td>
+                            <a href="@Url.Action("Plus", new { id = obj.Id })" class="btn btn-primary plus">+</a>
+                            <a href="@Url.Action("Minus", new { id = obj.Id })" class="btn btn-warning text-white minus">-</a>
+                        </td>
+                    </tr>
+                }
+                <tr class="font-weight-bold">
+                    <td>Total :</td>
+                    <td>@pmTotal</td>
+                    <td>@rdTotal</td>
+                    <td>@utTotal</td>
+                    <td>@otTotal</td>
+                    <td>@allTotal</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No Category exists.</p>
+    }
+</div>
